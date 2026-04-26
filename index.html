@@ -1,145 +1,104 @@
-import { useState } from "react"; import { Heart, MapPin, User } from "lucide-react"; import { motion } from "framer-motion";
+<!DOCTYPE html>
+<html>
+<head>
+  <title>FoodieFinds</title>
+  <style>
+    body { margin:0; font-family:Arial; background:#fff; }
+    header {
+      background:linear-gradient(rgba(0,0,0,.6),rgba(0,0,0,.6)),
+      url("https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&w=1600&q=80");
+      background-size:cover;
+      color:white;
+      padding:30px 60px 90px;
+    }
+    nav { display:flex; justify-content:space-between; align-items:center; }
+    .logo { font-size:28px; font-weight:bold; }
+    .orange { color:#f97316; }
+    .hero { margin-top:80px; max-width:700px; animation:fade 1s ease; }
+    h1 { font-size:60px; margin:10px 0; }
+    .search {
+      margin-top:30px; background:white; padding:12px; border-radius:20px;
+      display:flex; max-width:700px;
+    }
+    input { flex:1; border:0; font-size:16px; padding:15px; outline:0; }
+    button { background:#f97316; color:white; border:0; padding:15px 30px; border-radius:15px; font-weight:bold; }
+    .categories { display:flex; gap:20px; padding:35px 60px; overflow:auto; }
+    .cat { text-align:center; transition:.3s; }
+    .cat:hover { transform:scale(1.1); }
+    .circle { background:#f3f4f6; width:70px; height:70px; border-radius:50%; display:grid; place-items:center; font-size:28px; }
+    section { padding:20px 60px 60px; }
+    .cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:25px; }
+    .card { border-radius:18px; overflow:hidden; box-shadow:0 10px 25px #ddd; transition:.3s; }
+    .card:hover { transform:translateY(-10px) scale(1.02); }
+    .card img { width:100%; height:160px; object-fit:cover; }
+    .info { padding:18px; }
+    .tag { background:#dcfce7; color:#166534; padding:6px 10px; border-radius:20px; font-size:13px; }
+    @keyframes fade { from{opacity:0; transform:translateY(30px)} to{opacity:1; transform:translateY(0)} }
+  </style>
+</head>
+<body>
 
-const categories = [ "All","Italian","American","Mexican","Asian","Seafood","Indian","Desserts","Cafes" ];
+<header>
+  <nav>
+    <div class="logo">🍴 Foodie<span class="orange">Finds</span></div>
+    <div>Home &nbsp;&nbsp; Explore &nbsp;&nbsp; Favorites</div>
+  </nav>
 
-const restaurants = [ { name: "Napoli Pizzeria", cuisine: "Italian", rating: 4.6, reviews: 1248, price: "$$", tags: ["Pizza","Pasta","Wine"], location: "Downtown", image: "https://images.unsplash.com/photo-1600891964599-f61ba0e24092" }, { name: "The Burger House", cuisine: "American", rating: 4.5, reviews: 982, price: "$$", tags: ["Burgers","Fries","Shakes"], location: "Broad Ripple", image: "https://images.unsplash.com/photo-1550547660-d9450f859349" }, { name: "Sakura Sushi", cuisine: "Japanese", rating: 4.7, reviews: 1102, price: "$$$", tags: ["Sushi","Seafood"], location: "Carmel", image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c" }, { name: "Taste of India", cuisine: "Indian", rating: 4.6, reviews: 873, price: "$$", tags: ["Indian","Curry","Vegetarian"], location: "Downtown", image: "https://images.unsplash.com/photo-1604908177522-0408cfd9e1a2" } ];
+  <div class="hero">
+    <p>⭐ Discover. Eat. Enjoy.</p>
+    <h1>Find your next <span class="orange">favorite</span> restaurant</h1>
+    <p>Discover the best places to eat near you.</p>
 
-export default function PixelPerfectRestaurantUI(){ const [search,setSearch]=useState(""); const [selected,setSelected]=useState("All");
-
-const filtered=restaurants.filter(r=>{ const s=r.name.toLowerCase().includes(search.toLowerCase())||r.cuisine.toLowerCase().includes(search.toLowerCase()); const c=selected==="All"||r.cuisine===selected; return s&&c; });
-
-return ( <div className="bg-gray-100 min-h-screen font-sans">
-
-{/* NAVBAR */}
-  <motion.div 
-    initial={{y:-50,opacity:0}} 
-    animate={{y:0,opacity:1}} 
-    className="flex items-center justify-between px-8 py-4 bg-black text-white"
-  >
-    <div className="text-xl font-bold">🍴 FoodieFinds</div>
-    <div className="hidden md:flex gap-6 text-sm">
-      <span className="text-orange-400">Home</span>
-      <span>Explore</span>
-      <span>Categories</span>
-      <span>Favorites</span>
-      <span>About</span>
-    </div>
-    <div className="flex items-center gap-4">
-      <div className="flex items-center gap-1 bg-gray-800 px-3 py-1 rounded-full text-sm">
-        <MapPin size={14}/> Indianapolis, IN
-      </div>
-      <User size={18}/>
-    </div>
-  </motion.div>
-
-  {/* HERO */}
-  <div className="relative h-[420px]">
-    <motion.img
-      src="https://images.unsplash.com/photo-1504674900247-0877df9cc836"
-      className="w-full h-full object-cover"
-      initial={{scale:1.1}}
-      animate={{scale:1}}
-      transition={{duration:1}}
-    />
-    <div className="absolute inset-0 bg-black/50 flex flex-col justify-center px-10">
-      <motion.h1 
-        initial={{opacity:0,y:20}} 
-        animate={{opacity:1,y:0}} 
-        transition={{delay:0.3}}
-        className="text-white text-5xl font-bold max-w-xl"
-      >
-        Find your next favorite restaurant
-      </motion.h1>
-
-      <motion.p 
-        initial={{opacity:0,y:20}} 
-        animate={{opacity:1,y:0}} 
-        transition={{delay:0.5}}
-        className="text-gray-200 mt-3 max-w-md"
-      >
-        Discover the best places to eat, based on real reviews and top ratings.
-      </motion.p>
-
-      <motion.div 
-        initial={{opacity:0,y:20}} 
-        animate={{opacity:1,y:0}} 
-        transition={{delay:0.7}}
-        className="flex mt-6 max-w-xl"
-      >
-        <input
-          className="flex-1 p-4 rounded-l-xl outline-none"
-          placeholder="Search for restaurants, cuisines, or dishes..."
-          value={search}
-          onChange={(e)=>setSearch(e.target.value)}
-        />
-        <button className="bg-orange-500 text-white px-6 rounded-r-xl font-semibold hover:scale-105 transition">
-          Search
-        </button>
-      </motion.div>
+    <div class="search">
+      <input placeholder="Search restaurants, cuisines, or dishes...">
+      <button>Search</button>
     </div>
   </div>
+</header>
 
-  {/* CATEGORIES */}
-  <div className="flex gap-4 overflow-x-auto px-6 py-6 bg-white justify-center">
-    {categories.map(cat=> (
-      <motion.button
-        key={cat}
-        whileHover={{scale:1.1}}
-        whileTap={{scale:0.95}}
-        onClick={()=>setSelected(cat)}
-        className={`px-4 py-2 rounded-full text-sm whitespace-nowrap transition ${selected===cat?"bg-orange-500 text-white":"bg-gray-100"}`}
-      >
-        {cat}
-      </motion.button>
-    ))}
-  </div>
-
-  {/* SECTION TITLE */}
-  <div className="flex justify-between items-center px-8 mt-6">
-    <h2 className="text-xl font-semibold">Recommended for you</h2>
-    <span className="text-orange-500 text-sm cursor-pointer hover:underline">View all →</span>
-  </div>
-
-  {/* CARDS */}
-  <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 px-8 py-6">
-    {filtered.map((r,i)=> (
-      <motion.div 
-        key={i}
-        initial={{opacity:0,y:30}}
-        animate={{opacity:1,y:0}}
-        transition={{delay:i*0.1}}
-        whileHover={{scale:1.03}}
-        className="bg-white rounded-2xl overflow-hidden shadow hover:shadow-xl transition"
-      >
-
-        <div className="relative">
-          <img src={r.image} className="h-48 w-full object-cover"/>
-          <motion.div whileHover={{scale:1.2}}>
-            <Heart className="absolute top-3 right-3 bg-white rounded-full p-1 cursor-pointer"/>
-          </motion.div>
-        </div>
-
-        <div className="p-4">
-          <h3 className="font-semibold text-lg">{r.name}</h3>
-          <p className="text-gray-500 text-sm">{r.cuisine} • {r.location}</p>
-
-          <div className="flex justify-between items-center mt-2">
-            <span className="text-orange-500 text-sm">⭐ {r.rating} ({r.reviews})</span>
-            <span className="text-green-600">{r.price}</span>
-          </div>
-
-          <div className="flex flex-wrap gap-2 mt-3">
-            {r.tags.map(tag=> (
-              <span key={tag} className="bg-gray-100 px-2 py-1 rounded-full text-xs hover:bg-gray-200 transition">
-                {tag}
-              </span>
-            ))}
-          </div>
-        </div>
-      </motion.div>
-    ))}
-  </div>
-
+<div class="categories">
+  <div class="cat"><div class="circle">🍝</div><p>Italian</p></div>
+  <div class="cat"><div class="circle">🍔</div><p>American</p></div>
+  <div class="cat"><div class="circle">🌮</div><p>Mexican</p></div>
+  <div class="cat"><div class="circle">🍣</div><p>Asian</p></div>
+  <div class="cat"><div class="circle">☕</div><p>Cafes</p></div>
 </div>
 
-); }
+<section>
+  <h2>Recommended for you</h2>
+
+  <div class="cards">
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?auto=format&fit=crop&w=900&q=80">
+      <div class="info">
+        <h3>Napoli Pizzeria</h3>
+        <p>Italian • Downtown</p>
+        <p>⭐ 4.6 • $$</p>
+        <span class="tag">Pizza</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=900&q=80">
+      <div class="info">
+        <h3>The Burger House</h3>
+        <p>American • Broad Ripple</p>
+        <p>⭐ 4.5 • $$</p>
+        <span class="tag">Burgers</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1579584425555-c3ce17fd4351?auto=format&fit=crop&w=900&q=80">
+      <div class="info">
+        <h3>Sakura Sushi</h3>
+        <p>Japanese • Carmel</p>
+        <p>⭐ 4.7 • $$$</p>
+        <span class="tag">Sushi</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>
